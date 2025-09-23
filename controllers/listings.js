@@ -190,57 +190,103 @@ const showBooking = async (req, res) => {
 };
 
 
+// const makePayment = async(req, res) =>{
+//   const {id} = req.params;
+//   const {check_in, check_out} = req.body;
+//   const currUser = res.locals.currUser;
+  
+//   console.log("payment: ",id, check_in, check_out, res.locals.currUser);
+
+//   //always fetch price from listing Db -> that is the true and original price
+//   const listing = await Listing.findById(id);
+//   if(!listing){
+//     return req.flash("error", "Listing Doesn't exist");
+//   }
+
+//   //now calculating price with number of nights
+//   const nights = Math.ceil((new Date(check_out) - new Date(check_in)) / (1000 * 60 * 60 * 24));
+//   const totalPrice = listing.price *  nights;
+
+
+//   //make payment through stripe
+//   const session = await stripe.checkout.sessions.create({
+//   payment_method_types: ["card"],
+//   mode: "payment",
+//   line_items: [{
+//     price_data: {
+//       currency: "inr",
+//       product_data: { name: listing.title },
+//       unit_amount: totalPrice * 100,
+//     },
+//     quantity: 1,
+//   }],
+    
+//     success_url: `${process.env.DOMAIN}/${id}/success/?session_id={CHECKOUT_SESSION_ID}`,
+//     cancel_url: `${process.env.DOMAIN}/${id}/cancel`,
+
+  
+// });
+
+//   res.redirect(session.url);
+
+//   //creating a booking with status pending
+//   const newBooking = new Booking({
+//     listingId: id,
+//     user: currUser.id,
+//     checkin: check_in, 
+//     checkout: check_out,
+//     totalPrice,
+//     stripeSessionId: session.id
+//   });
+
+//   await newBooking.save();
+// }
 const makePayment = async(req, res) =>{
   const {id} = req.params;
   const {check_in, check_out} = req.body;
   const currUser = res.locals.currUser;
-  
-  console.log("payment: ",id, check_in, check_out, res.locals.currUser);
 
-  //always fetch price from listing Db -> that is the true and original price
   const listing = await Listing.findById(id);
   if(!listing){
-    return req.flash("error", "Listing Doesn't exist");
+    req.flash("error", "Listing doesn't exist");
+    return res.redirect("/listings");
   }
 
-  //now calculating price with number of nights
   const nights = Math.ceil((new Date(check_out) - new Date(check_in)) / (1000 * 60 * 60 * 24));
-  const totalPrice = listing.price *  nights;
+  const totalPrice = listing.price * nights;
 
-
-  //make payment through stripe
+  // Create Stripe session
   const session = await stripe.checkout.sessions.create({
-  payment_method_types: ["card"],
-  mode: "payment",
-  line_items: [{
-    price_data: {
-      currency: "inr",
-      product_data: { name: listing.title },
-      unit_amount: totalPrice * 100,
-    },
-    quantity: 1,
-  }],
-    
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: [{
+      price_data: {
+        currency: "inr",
+        product_data: { name: listing.title },
+        unit_amount: totalPrice * 100,
+      },
+      quantity: 1,
+    }],
     success_url: `${process.env.DOMAIN}/${id}/success/?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.DOMAIN}/${id}/cancel`,
+  });
 
-  
-});
-
-  res.redirect(session.url);
-
-  //creating a booking with status pending
+  // Create booking **before redirect**
   const newBooking = new Booking({
     listingId: id,
     user: currUser.id,
     checkin: check_in, 
     checkout: check_out,
     totalPrice,
-    stripeSessionId: session.id
+    stripeSessionId: session.id,
+    paymentStatus: "pending"
   });
 
   await newBooking.save();
-}
+
+  // Then redirect
+  res.redirect(session.url);
+};
 
 
 
