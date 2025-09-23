@@ -248,34 +248,43 @@ const showSuccessPayment = async (req, res) => {
   const { session_id } = req.query;
 
   if (!session_id) {
-    req.flash("error", "Payment was not successfull");
+    req.flash("error", "Payment was not successful");
     return res.redirect("/listings");
   }
 
-  //console.log(session_id)
+  try {
+    // Fetch session from Stripe
+    const session = await stripe.checkout.sessions.retrieve(session_id);
 
-  // Fetch session from Stripe
-  const session = await stripe.checkout.sessions.retrieve(session_id);
+    if (!session) {
+      req.flash("error", "Stripe session not found");
+      return res.redirect("/listings");
+    }
 
-  // Find the booking in DB using stripeSessionId
-  const booking = await Booking.findOne({ stripeSessionId: session_id });
+    // Find the booking in DB using stripeSessionId
+    const booking = await Booking.findOne({ stripeSessionId: session_id });
 
-  if (!booking) {
-    req.flash("error", "Booking not found.");
+    if (!booking) {
+      req.flash("error", "Booking not found.");
+      return res.redirect("/listings");
+    }
+
+    // Update payment status
+    if (session.payment_status === "paid") {
+      booking.paymentStatus = "paid";
+      await booking.save();
+
+      req.flash("success", "Payment successful! Booking confirmed");
+    } else {
+      req.flash("error", "Payment not completed.");
+    }
+
+    return res.redirect("/listings");
+  } catch (err) {
+    console.error("Stripe or DB error:", err);
+    req.flash("error", "Something went wrong with the payment.");
     return res.redirect("/listings");
   }
-
-  //console.log(session)
-  if (session.payment_status === "paid") {
-    booking.paymentStatus = "paid";
-    await booking.save();
-
-    req.flash("success", "Payment successful! Booking confirmed");
-  } else {
-    req.flash("error", "Payment not completed.");
-  }
-
-  return res.redirect("/listings");
 };
 
 
