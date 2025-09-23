@@ -1,0 +1,153 @@
+<% layout('./layouts/boilerplate') -%>
+
+<!-- Inject API key and listing data -->
+<script>
+  let mapApi = "<%= mapApi %>";   // MapTiler API key
+
+  // Serialize listing and extract lat & lng from geometry.coordinates
+  let listing = {
+    ...<%- JSON.stringify(listing) %>,
+    lat: <%= listing.geometry?.coordinates[1] || 0 %>,  // latitude
+    lng: <%= listing.geometry?.coordinates[0] || 0 %>   // longitude
+  };
+</script>
+
+
+<body>
+  <div class="show-page">
+    <!-- Title -->
+    <h2 class="title"><%= listing.title %></h2>
+
+    <!-- Main Image -->
+    <div class="main-image">
+      <img src="<%= listing.image.url %>" alt="listing_image">
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="details">
+      <!-- Left Info Card -->
+      <div class="info-card">
+        <h4>Rental Unit in <%= listing.location %></h4>
+        <ul>
+          <li>2 guests</li>
+          <li>1 bedroom</li>
+          <li>1 bed</li>
+          <li>1 bathroom</li>
+        </ul>
+        <hr>
+        <p class="host">Hosted by <%= listing.owner.username %> • Superhost</p>
+        <hr>
+        <div class="desc">
+          <%= listing.description %>
+        </div>
+      </div>
+
+      <!-- Right Booking Card -->
+      <div class="booking-card">
+        <h5>&#8377;<%= listing.price.toLocaleString("en-IN") %> for 2 nights</h5>
+        <form action="/listings/<%= listing._id %>/bookings/payment" method="GET">
+          <input id="checkin" type="text" name="check_in" placeholder="Check-in">
+          <input id="checkout" type="text" name="check_out" placeholder="Check-out">
+          <button type="submit">Reserve</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <% if(currUser && currUser._id.equals(listing.owner._id)) { %>  
+  <div class="show-page owner-actions d-flex justify-content-center mb-4">
+    <a href="/listings/<%= listing.id %>/edit" class="btn btn-outline-dark me-2">
+      Edit this listing
+    </a>
+    <form method="POST" action="/listings/<%= listing._id%>?_method=DELETE" class="d-inline">
+      <button class="btn btn-danger">Delete this listing</button>
+    </form>
+  </div>
+  <% } %>
+
+
+  <hr>
+  <!-- Review Section -->
+  <div class="show-page reviews-section">
+    <div class="row justify-content-center mb-4">
+      <% if(currUser) { %>
+        <div class="col-md-8">
+          <div class="card review-form-card shadow-sm">
+            <div class="card-body">
+              <h4 class="mb-3 fw-bold">Leave a Review</h4>
+              <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
+                <div class="mb-3">
+                  <label for="rating" class="form-label">Rating</label>
+                  <fieldset class="starability-slot"> 
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                </div>
+
+                <div class="mb-3">
+                  <label for="comment" class="form-label">Comment</label>
+                  <textarea
+                    id="comment" 
+                    name="review[comment]"
+                    cols="30"
+                    rows="4"
+                    class="form-control"
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">Please add some comment for review</div>
+                </div>
+                <button class="btn btn-danger px-4">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <hr>
+    <h5 class="fw-bold mb-3">All Reviews</h5>
+    <div class="row g-3">
+      <% for(review of listing.reviews) { %>
+        <div class="col-md-6">
+          <div class="card review-card shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title fw-bold">@<%= review.author.username %></h6>
+              <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
+              <p class="card-text"><%= review.comment %></p>
+              <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE">
+                <button class="btn btn-outline-dark btn-sm">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } %> 
+    </div>
+    <hr>
+    <div class="col-6 offset-3 mt-2 mb-3">
+  <h3>Where you'll be</h3>
+  <div id="map" style="height: 400px;"></div>  <!-- add height so map is visible -->
+</div>
+
+
+  </div>
+
+      <!-- now it has token we can use it in map.js file -->
+<script src="/js/map.js"></script>
+ 
+
+</body>
+
+<script>
+  // Inject backend data into global scope
+  window.disabledDate = <%- JSON.stringify(disabledDate || []) %>;
+  //console.log("Injected disabledDate:", window.disabledDate);
+</script>

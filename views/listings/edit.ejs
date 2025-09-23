@@ -1,0 +1,98 @@
+<% layout('./layouts/boilerplate') -%>
+<body>
+  <div class="container my-4">
+    <div class="card border-1 shadow-sm p-4 rounded-4">
+      <h2 class="mb-4 fw-bold text-center">Edit Listing</h2>
+      <form method="POST" action="/listings/<%= listing._id %>?_method=PUT"novalidate class="needs-validation"    enctype="multipart/form-data">
+        <div class="row g-4">
+          <!-- Title -->
+          <div class="col-md-6">
+            <label for="title" class="form-label fw-semibold">Title</label>
+            <input id="title" name="listing[title]" type="text" class="form-control" value="<%= listing.title %>" required>
+            <div class="invalid-feedback">Please enter a title.</div>
+          </div>
+
+          <!-- Price -->
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold">Price</label>
+            <input id="price" name="listing[price]" type="number" class="form-control"
+                  value="<%= listing.price %>" required>
+            <div class="invalid-feedback">Price should be valid.</div>
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label for="description" class="form-label fw-semibold">Description</label>
+            <textarea id="description" name="listing[description]" class="form-control" rows="3" required><%= listing.description %></textarea>
+            <div class="invalid-feedback">Short description should be there.</div>
+          </div>
+
+          <!-- Current Image -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">Current Image</label><br>
+            <img src="<%= originalImageUrl %>" alt="Listing Image" class="img-thumbnail" style="max-width: 250px;">
+          </div>
+
+          <!-- Upload New Image -->
+          <div class="col-12">
+            <label for="image" class="form-label fw-semibold">Upload New Image</label>
+            <input id="image" name="listing[image]" type="file" class="form-control">
+          </div>
+
+          <!-- Location -->
+          <div class="col-md-6">
+            <label for="location" class="form-label fw-semibold">Location</label>
+            <input id="location" name="listing[location]" type="text" class="form-control"
+                  value="<%= listing.location %>" required>
+            <div class="invalid-feedback">Location should be entered.</div>
+          </div>
+
+          <!-- Country -->
+          <div class="col-md-6">
+            <label for="country" class="form-label fw-semibold">Country</label>
+            <input id="country" name="listing[country]" type="text" class="form-control"
+                  value="<%= listing.country %>" required>
+            <div class="invalid-feedback">Country name should be present.</div>
+          </div>
+        </div> 
+
+        <!-- Save Button (Footer Fixed) -->
+          <div class="mt-4">
+          <button type="submit" class="btn btn-danger w-100 py-2 rounded-3 shadow-sm fw-semibold">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+
+
+<!-- The name attribute defines how the form data will be structured when sent to the server.
+It’s the KEY in the key-value pair.
+
+name	What is sent to Server
+name="title"	{ title: "Some Title" }
+name="listing[title]"	{ listing: { title: "Some Title" } } -->
+
+<!-- What is value Attribute Doing?
+The value attribute defines what will be filled inside the input field when the form is displayed.
+this is what the user will see pre-filled.
+On form submission, this becomes the value part of the key-value pair. -->
+
+<!-- <input name="listing[title]"  type="text" value="<%= listing.title %>" required>
+        <div class="valid-feedback">Title looks good!</div>
+        <input name="listing[description]" type="text" value="<%= listing.description %>" required>
+        <div class="invalid-feedback">Short description  should be there</div>
+        <img src = "<%= originalImageUrl %>"/>
+        <label for="image">Upload New Image</label>
+        <input id="image" name="listing[image]" type="file" >
+        <input name="listing[price]" type="number" value="<%= listing.price%>" required>
+        <div class="invalid-feedback">Price should be valid</div>
+        <input name="listing[location]" type="text" value="<%= listing.location %>" required>
+        <div class="invalid-feedback">Location should be entered</div>
+        <input name="listing[country]" type="text" value="<%= listing.country %>" required>
+        <div class="invalid-feedback">Country name should be present</div>
+        <button>save</button> -->
+

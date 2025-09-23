@@ -1,0 +1,83 @@
+<nav class="navbar navbar-expand-md bg-white sticky-top">
+  <div class="container-fluid">
+
+    <!-- wonderlust icon  -->
+    <div >
+      <a href="/listings" class="wonderlust-brand">
+        <i class="fa-solid fa-compass"></i>
+        <label>wonderlust</label>
+      </a>
+    </div>
+
+    <!-- Hotels and flights -->
+    <div class="middle-section d-flex">
+      <a  href="/listings" class="middle-nav-item">
+        <img src="/assets/icons/hotels.png" id="Homes" alt="Home Icon" class="nav-icon"/>
+        <label for="Homes">Homes</label>
+      </a>
+      <a href="/flights" class="middle-nav-item">
+        <img src="/assets/icons/f.png" id="Flights" alt="Home Icon" class="nav-icon"/>
+        <label for="Flights">Flights</label>
+      </a>
+    </div>
+    
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    
+  <div class="d-none d-md-block">
+    <!-- <a class="nav-link active" aria-current="page" href="/">Home</a> -->
+    <!-- <a class="nav-link" href="/listings">All Listings</a> -->
+    <a class="nav-link become-host" href="/listings/new">Become a host</a>
+    <!-- <a class="nav-link" href="/flights">Flights</a> -->
+  </div>
+
+    <!-- Authentication -->
+    <div >
+      <div class="navbar-nav ms-auto">
+        <% if (!currUser) { %>
+          <a class="btn btn-danger me-2" href="/signup">Signup</a>
+          <a class="btn btn-danger" href="/login">Login</a>
+        <% } %>
+        <% if (currUser) { %>
+          <a class="btn btn-danger" href="/logout">Logout</a>
+        <% } %>
+      </div>
+    </div>
+</nav>
+
+<!-- Search  -->
+<div class="search-nav">
+  <div class="container-fluid">
+    <form method="GET" action="/listings">
+      <div class="d-flex search-input-group mx-auto search-form-container">
+          <div class="search-field flex-grow-1">
+            <label for="search_destination" class="small fw-bold">Where</label>
+            <input type="text" id="search_destination" class="search-input" placeholder="Search destinations" name="search_destination">
+          </div>
+          <div class="search-field">
+            <label for="check_in" class="small fw-bold">Check in</label>
+            <input type="date" id="check_in" class="search-input text-muted" placeholder="Add dates" name="check_in">
+          </div>
+          <div class="search-field">
+            <label for="check_out" class="small fw-bold">Check out</label>
+            <input type="date" id="check_out" class="search-input text-muted" placeholder="Add dates" name="check_out">
+          </div>
+          <div class="search-field">
+            <label for="guests" class="small fw-bold">Who</label>
+            <input type="text" id="guests" class="search-input text-muted" placeholder="Add guests" name="guests">
+          </div>
+          <button type="submit" class="search-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+

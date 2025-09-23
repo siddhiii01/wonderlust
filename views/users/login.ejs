@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+   <body class="login-page">
+  <div class="login-container">
+    <div class="login-card shadow">
+      <h2 class="login-title text-center mb-3">Login</h2>
+      <p class="login-subtitle text-center mb-4">Access your account</p>
+
+      <form action="/login" method="POST" novalidate class="needs-validation">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            class="form-control login-input" 
+            name="username" 
+            required
+          >
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control login-input" 
+            name="password" 
+            required
+          >
+        </div>
+
+        <button class="btn login-btn w-100 mb-3">Login</button>
+      </form>
+
+      <p class="signup-text text-center">
+        Don’t have an account? 
+        <a href="/signup" class="signup-link">Sign up</a>
+      </p>
+    </div>
+  </div>
+</body>
+
+
+
+
+</html>
+
+
+

@@ -1,0 +1,72 @@
+<% layout('./layouts/boilerplate') -%>
+
+<% layout('./layouts/boilerplate') -%>
+
+<% if (success && success.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+
+<body>
+  <div class="container my-5">
+    <div class="card border-1 shadow-sm p-4 rounded-4">
+      <h2 class="mb-4 fw-bold text-center">Create a New Listing</h2>
+      
+      <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="row g-4">
+          <!-- Title -->
+          <div class="col-md-6">
+            <label for="title" class="form-label fw-semibold">Title</label>
+            <input name="listing[title]" type="text" class="form-control rounded-3 shadow-sm" id="title" placeholder="e.g., Cozy Apartment in Mumbai" required>
+            <div class="invalid-feedback">Please enter a title.</div>
+          </div>
+          
+          <!-- Price -->
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold">Price (₹)</label>
+            <input name="listing[price]" type="number" class="form-control rounded-3 shadow-sm" id="price" placeholder="e.g., 2500" required>
+            <div class="invalid-feedback">Please enter a valid price.</div>
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label for="description" class="form-label fw-semibold">Description</label>
+            <textarea name="listing[description]" class="form-control rounded-3 shadow-sm" id="description" rows="3" placeholder="Write a short description..." required></textarea>
+            <div class="invalid-feedback">Please provide a description.</div>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="col-12">
+            <label for="image" class="form-label fw-semibold">Upload Listing Image</label>
+            <input name="listing[image]" class="form-control rounded-3 shadow-sm" type="file" id="image" required>
+            <div class="invalid-feedback">Please upload an image.</div>
+          </div>
+
+          <!-- Location -->
+          <div class="col-md-6">
+            <label for="location" class="form-label fw-semibold">Location</label>
+            <input name="listing[location]" type="text" class="form-control rounded-3 shadow-sm" id="location" placeholder="e.g., Bandra West" required>
+            <div class="invalid-feedback">Please enter a location.</div>
+          </div>
+
+          <!-- Country -->
+          <div class="col-md-6">
+            <label for="country" class="form-label fw-semibold">Country</label>
+            <input name="listing[country]" type="text" class="form-control rounded-3 shadow-sm" id="country" placeholder="e.g., India" required>
+            <div class="invalid-feedback">Please enter a country.</div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="mt-4">
+          <button type="submit" class="btn btn-danger w-100 py-2 rounded-3 shadow-sm fw-semibold">
+            Save Listing
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

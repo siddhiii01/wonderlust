@@ -1,0 +1,120 @@
+<% layout('./layouts/boilerplate') -%>
+<body class="checkout-page">
+  <div class="main-content">
+    <div class="container-fluid checkout-container mx-0" >
+
+      <h1 class="fw-bold mb-5 mt-5">Confirm and Pay</h1>
+      <div class="row g-4">
+
+        <!-- Left Column -->
+        <div class="col-lg-7">
+          <!-- Owner Info -->
+          <div class="card p-4 mb-4 card-owner">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="fw-bold mb-1">This is a rare find.</h5>
+                <p class="mb-0 text-muted"><b><i><%= listing.owner.username %>'s </i></b> &nbsp;place is usually booked.</p>
+              </div>
+             <div class="owner-icon">
+              <i class="fa-solid fa-gem"></i>  <!-- Removed unused 'gem' class -->
+            </div>
+            </div>
+          </div>
+
+          <!-- Ground Rules -->
+      <div class="card p-4 mb-4 card-ground-rules">
+        <h4>Ground rules</h4>
+        <p>We ask every guest to remember a few simple things about what makes a great guest.</p>
+        <ul>
+          <li>Follow the house rules</li>
+          <li>Treat your Host's home like your own</li>
+        </ul>
+      </div>
+
+          <!-- Payment Form -->
+          <div class="card p-4">
+            <h4>Pay with Card</h4>
+          
+            <form action="/listings/<%= listing._id %>/bookings/payment/" method="POST" id="payment-form">
+              <!-- Hidden fields to carry forward data -->
+              <input type="hidden" name="check_in" value="<%= check_in.toISOString() %>">
+              <input type="hidden" name="check_out" value="<%= check_out.toISOString() %>">
+              
+              <!-- <input type="number" max="16" placeholder="card no" name="card_no">
+              <input type="number" placeholder="Expiration MM/YY" name="expire" >
+              <input type="number" placeholder="CVV 3 digits" name="cvv" >
+              <input type="text" placeholder="Cardholder name" name="cardholderName"> -->
+              <div id="card-element"></div>
+              <button id="submit" class="btn btn-danger py-2 rounded-3 shadow-sm fw-semibold">Confirm and Pay</button>
+            </form>
+          </div>
+        </div>
+
+         <!-- Right Column -->
+        <!-- <div class="col-lg-5">
+          <div class="card p-3"> 
+            <img src="<%= listing.image.url %>" alt="Listing" width="120" height="90">
+            <div>
+            <h5 class="mb-1 mt-2"><%= listing.title %></h5>
+            <p class="text-muted small mb-0">
+              <%= check_in.getDate() %> 
+              <%= check_in.toLocaleString("en-US", {month: "short"}) %> -
+              <%= check_out.getDate() %> 
+              <%= check_out.toLocaleString("en-US", {month: "short"}) %>
+            </p>
+            <hr />
+            <div class="price-section">
+             <p><b>Price details</b></p>
+              <p>
+                <%= Math.round((check_out - check_in) / (1000 * 60 * 60 * 24)) %> nights × ₹<%= listing.price %>
+              </p>
+              <p><b>Total (INR):</b> ₹<%= Math.round(((check_out - check_in) / (1000 * 60 * 60 * 24)) * listing.price) %></p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Right Column -->
+<div class="col-lg-5">
+  <div class="card p-3 card-listing"> 
+    <img src="<%= listing.image.url %>" alt="Listing">
+    <div>
+      <h5 class="mb-1 mt-2"><%= listing.title %></h5>
+      <p class="text-muted small mb-0">
+        <%= check_in.getDate() %> 
+        <%= check_in.toLocaleString("en-US", {month: "short"}) %> -
+        <%= check_out.getDate() %> 
+        <%= check_out.toLocaleString("en-US", {month: "short"}) %>
+      </p>
+      <hr />
+      <div class="price-section">
+        <p><b>Price details</b></p>
+        <p>
+          <%= Math.round((check_out - check_in) / (1000 * 60 * 60 * 24)) %> nights × ₹<%= listing.price %>
+        </p>
+        <p><b>Total (INR):</b> ₹<%= Math.round(((check_out - check_in) / (1000 * 60 * 60 * 24)) * listing.price) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>    
+</body>
+
+<!-- <script>
+  const checkin = new Date("<%= check_in.toISOString() %>");
+  const checkout = new Date("<%= check_out.toISOString() %>");
+
+  const timeDiff = checkout - checkin
+   const nights = timeDiff / (1000 * 60 * 60 * 24);
+
+  console.log("Milliseconds:", timeDiff);
+  console.log("Nights:", nights);
+</script> -->
+
+<!-- <script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
+</script> -->
