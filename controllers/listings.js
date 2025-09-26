@@ -171,13 +171,15 @@ const showBooking = async (req, res) => {
     return res.redirect(`/listings/${id}`); // redirect back to listing page
   }
 
-  // Validate if they are valid dates
+ 
+  const inDate = new Date(check_in);
+  const outDate = new Date(check_out);
+
+   // Validate if they are valid dates
   if (isNaN(inDate.getTime()) || isNaN(outDate.getTime())) {
     req.flash("error", "Invalid date format for check-in or check-out.");
     return res.redirect(`/listings/${id}`);
   }
-  const inDate = new Date(check_in);
-  const outDate = new Date(check_out);
 
   // Find listing and populate owner in one go
   let listing = await Listing.findById(id).populate("owner");
