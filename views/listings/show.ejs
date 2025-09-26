@@ -119,13 +119,16 @@
       <% for(review of listing.reviews) { %>
         <div class="col-md-6">
           <div class="card review-card shadow-sm">
-            <div class="card-body">
+           <div class="card-body">
               <h6 class="card-title fw-bold">@<%= review.author.username %></h6>
               <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
               <p class="card-text"><%= review.comment %></p>
-              <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE">
-                <button class="btn btn-outline-dark btn-sm">Delete</button>
-              </form>
+
+              <% if (currUser && review.author._id.equals(currUser._id)) { %>
+                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE">
+                  <button class="btn btn-outline-dark btn-sm">Delete</button>
+                </form>
+              <% } %>
             </div>
           </div>
         </div>

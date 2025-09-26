@@ -165,6 +165,17 @@ const showBooking = async (req, res) => {
   let { id } = req.params;
   let { check_in, check_out } = req.query;
 
+    // If query params missing, flash error and redirect
+  if (!check_in || !check_out) {
+    req.flash("error", "Check-in and check-out dates are required.");
+    return res.redirect(`/listings/${id}`); // redirect back to listing page
+  }
+
+  // Validate if they are valid dates
+  if (isNaN(inDate.getTime()) || isNaN(outDate.getTime())) {
+    req.flash("error", "Invalid date format for check-in or check-out.");
+    return res.redirect(`/listings/${id}`);
+  }
   const inDate = new Date(check_in);
   const outDate = new Date(check_out);
 
