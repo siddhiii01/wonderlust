@@ -12,6 +12,21 @@
       <h2 class="signup-title text-center mb-3">Create an Account</h2>
       <p class="signup-subtitle text-center mb-4">Join us and get started</p>
 
+      <!--Flash messages -->
+      <% if (error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+      <% if (success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+      <!-- Flash messages -->
+
       <form action="/signup" method="POST" novalidate class="needs-validation">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -22,6 +37,9 @@
             name="username" 
             required
           >
+           <div class="invalid-feedback">
+            Please enter a valid username (3-20 letters, numbers, or underscores).
+          </div>
         </div>
 
         <div class="mb-3">
@@ -33,6 +51,9 @@
             name="email" 
             required
           >
+          <div class="invalid-feedback">
+            Please enter a valid email address.
+          </div>
         </div>
 
         <div class="mb-4">
@@ -44,6 +65,9 @@
             name="password" 
             required
           >
+           <div class="invalid-feedback">
+            Password must be at least 6 characters.
+          </div>
         </div>
 
         <button class="btn signup-btn w-100 mb-3">Sign Up</button>

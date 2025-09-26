@@ -7,14 +7,26 @@ const renderSignupForm = (req,res)=>{
 const signup = async (req,res) => {
   try{
     const {username, email, password} = req.body;
+
+     // Server-side: check if username or email already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      req.flash("error", "Username or email already exists. Please choose another.");
+      return res.redirect("/signup"); // redirect back to signup form
+    }
     const newUser = new User({username, email});
     const registeredUser = await User.register(newUser, password);
-    console.log(registeredUser);
-    req.login(registeredUser, function(err){
-      if(err) return err;
-      req.flash("success", "Welcome to wanderlust");
-      res.redirect('/listings');
-    })
+    //console.log(registeredUser);
+
+     // Auto-login after signup
+    req.login(registeredUser, function(err) {
+      if (err) {
+        req.flash("error", "Something went wrong during login.");
+        return res.redirect("/signup");
+      }
+      req.flash("success", "Welcome to Wanderlust!");
+      res.redirect("/listings");
+    });
     
   } catch(e){
     console.log(e);
