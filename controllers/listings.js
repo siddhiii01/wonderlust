@@ -11,8 +11,9 @@ import geocoding from "../utils/mapTiler.js";
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY) 
 
 const index = async (req, res) =>{
-  let {search_destination} = req.query;
-  console.log(search_destination);
+  let {search_destination, price} = req.query;
+
+  console.log("seacrching: ", req.query);
 
   let allListing;
   if(search_destination){
@@ -332,6 +333,7 @@ const showSuccessPayment = async (req, res) => {
     return res.redirect("/listings");
   }
 };
+
 
 
 

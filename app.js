@@ -34,7 +34,7 @@ const PORT = 8000;
 app.listen(PORT);
 
 //const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
-const dbUrl = process.env.ATLASDB_URL
+ const dbUrl = process.env.ATLASDB_URL
 
 // Fix for __dirname in ES6 modules
 const __filename = fileURLToPath(import.meta.url);

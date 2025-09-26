@@ -42,8 +42,8 @@ router.get('/:id/edit', isLoggedIn,isOwner, wrapAsync(listingController.renderEd
 
 
 //Booking Simulation
-router.get("/:id/bookings/payment",wrapAsync(listingController.showBooking));
-router.post("/:id/bookings/payment", wrapAsync(listingController.makePayment));
+router.get("/:id/bookings/payment",isLoggedIn,wrapAsync(listingController.showBooking));
+router.post("/:id/bookings/payment",isLoggedIn, wrapAsync(listingController.makePayment));
 
 router.get('/:id/success', wrapAsync(listingController.showSuccessPayment));
 
