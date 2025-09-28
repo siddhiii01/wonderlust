@@ -14,7 +14,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
         crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/login.css">
-  <script src="/js/script.js"></script>
+  <!-- <script src="/js/script.js"></script> -->
  
 </head>
    <body class="login-page">
@@ -65,5 +65,26 @@
 
 </html>
 
+<script>
 
+// Bootstrap validation
+(function () {
+  'use strict'
+
+  // Fetch all forms with needs-validation
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>
 
