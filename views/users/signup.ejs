@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/css/signup.css">
-   
+  <script src="/js/script.js"></script>
 </head>
   <body class="signup-page">
   <div class="signup-container">
@@ -38,7 +38,7 @@
             name="username" 
             required
           >
-           
+           <div class="invalid-feedback">Username is not valid</div>
         </div>
 
         <div class="mb-3">
@@ -50,7 +50,7 @@
             name="email" 
             required
           >
-          
+          <div class="invalid-feedback">Email is not valid</div>
         </div>
 
         <div class="mb-4">
@@ -62,7 +62,7 @@
             name="password" 
             required
           >
-           
+           <div class="invalid-feedback">Password is not valid</div>
         </div>
 
         <button class="btn signup-btn w-100 mb-3">Sign Up</button>
