@@ -30,8 +30,8 @@ import userRouter from "./routes/user.js"
 
 
 const app = express();
-const PORT = 8000;
-app.listen(PORT);
+//const PORT = 8000;
+//app.listen(PORT);
 
 //const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
  const dbUrl = process.env.ATLASDB_URL
@@ -172,7 +172,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", {message});
 });
 
-// const PORT = process.env.PORT || 8000;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// })
+ const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+   console.log(`Server running on port ${PORT}`);
+
+ })
