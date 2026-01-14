@@ -122,7 +122,7 @@ app.use((req, res, next) => {
 
 
 app.get('/', (req,res) =>{
-  res.send("Root Page");
+  res.redirect('/listings');
 });
 
 
