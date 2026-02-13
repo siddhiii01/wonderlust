@@ -11,7 +11,7 @@
 ---
 
 ##  Live Demo  
-🔗 **Visit App:** [https://wonderlust-p3w8.onrender.com/listings](https://airbnb-project-iozc.onrender.com/listings)
+🔗 **Visit App:** [https://wonderlust-p3w8.onrender.com/listings](https://wanderlust-93oo.onrender.com/listings)
 
 ---
 
